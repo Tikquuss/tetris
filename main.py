@@ -21,7 +21,7 @@ font = pygame.font.Font("datas/comfortaa.ttf", 50)
 GameOverX = int((WIDTH - ( 5 * 50))/2)
 GameOverY = int((HEIGHT - 50)/2)
 
-game_pause = False
+game_pause = True
 
 while running:
     # keep loop running at the right speed

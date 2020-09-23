@@ -1,0 +1,27 @@
+##########
+git clone https******************/tetris
+git clone https******************/tetris monnnnnnn
+
+
+cd tetris
+
+git branch ma_branche
+git checkout ma_branche
+
+git add remote origin https**********************
+#################################
+
+git add *
+
+git commit -a -m"add file that play game"
+
+git push https*************************** ma_branche
+git push origin ma_branche
+
+###############
+
+git merge master
+
+
+##################
+git help -commit

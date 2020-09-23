@@ -1,0 +1,21 @@
+# Game Screen and Game FPS
+WIDTH = 640
+HEIGHT = 480
+FPS = 15
+
+# define colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+BLUE_CLOUD = (0, 162, 232)
+GRID = (100,100,100)
+
+GRID_PALETTE = [BLACK, WHITE, RED, GREEN, BLUE]
+
+# define a tetris champ
+NBR_LINE = 22
+NBR_ROW = 10
+TETRIMINO_BASIC_SIZE = 16
+BONUS_DESTRUCTION = 10

@@ -13,7 +13,6 @@ from Utils import *
                                 *
 '''
 def set_Tetrimino_I(color_index):
-    TETRIMINO_TYPE = 1
     TETRIMINO = np.full((1, 4), color_index)
     return TETRIMINO
 '''
@@ -21,7 +20,6 @@ def set_Tetrimino_I(color_index):
                                 **
 '''
 def set_Tetrimino_O(color_index):
-    TETRIMINO_TYPE = 2
     TETRIMINO = np.full((2, 2), color_index)
     return  TETRIMINO
 
@@ -30,7 +28,6 @@ def set_Tetrimino_O(color_index):
                                  *
 '''
 def set_Tetrimino_T(color_index, color_indexG):
-    TETRIMINO_TYPE = 3
     TETRIMINO = np.full((3, 2), color_index)
     TETRIMINO[0][1] = color_indexG
     TETRIMINO[2][1] = color_indexG
@@ -42,7 +39,6 @@ def set_Tetrimino_T(color_index, color_indexG):
                                 **
 '''
 def set_Tetrimino_L(color_index, color_indexG):
-    TETRIMINO_TYPE = 4
     TETRIMINO = np.full((2, 3), color_index)
     TETRIMINO[1][0] = color_indexG
     TETRIMINO[1][1] = color_indexG
@@ -54,7 +50,6 @@ def set_Tetrimino_L(color_index, color_indexG):
                                **
 '''
 def set_Tetrimino_J(color_index, color_indexG):
-    TETRIMINO_TYPE = 5
     TETRIMINO = np.full((2, 3), color_index)
     TETRIMINO[0][0] = color_indexG
     TETRIMINO[0][1] = color_indexG
@@ -65,7 +60,6 @@ def set_Tetrimino_J(color_index, color_indexG):
                                  **
 '''
 def set_Tetrimino_Z(color_index, color_indexG):
-    TETRIMINO_TYPE = 6
     TETRIMINO = np.full((3, 2), color_index)
     TETRIMINO[2][0] = color_indexG
     TETRIMINO[0][1] = color_indexG
@@ -76,7 +70,6 @@ def set_Tetrimino_Z(color_index, color_indexG):
                                **
 '''
 def set_Tetrimino_S(color_index, color_indexG):
-    TETRIMINO_TYPE = 7
     TETRIMINO = np.full((3, 2), color_index)
     TETRIMINO[0][0] = color_indexG
     TETRIMINO[2][1] = color_indexG
@@ -91,6 +84,8 @@ class Tetriminos:
         self.type = type_t
         self.tetrimino = np.full((self.width, self.height), indexColor)
         self.changeTetrimino(indexColorG, indexColor, self.type)
+        self.speed_x = 0
+        self.speed_y = 0
 
     def color_index_compare(self, index_i, index_j, index_color):
         return self.tetrimino[index_i][index_j] == index_color
@@ -164,26 +159,34 @@ class Tetriminos:
             self.position_y = H_limite - self.tetrimino.shape[1]
             updateTetrimino = True
         return  updateTetrimino
+    def update(self):
+        self.position_x += self.speed_x
+        self.position_y += self.speed_y
 
 class Player(Tetriminos):
     def __init__(self, type_t, xPosition, yPosition, indexColor, indexColorG):
         super(Player, self).__init__(type_t, xPosition, yPosition, indexColor, indexColorG)
 
-    def eventTick(self, event):
-        userAction2 = False
-        userAction = False
+    def eventTick(self, event, userAction, userAction2):
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                self.position_x += -1
+            if event.key == pygame.K_LEFT and userAction == False:
+                self.speed_x = -1
                 userAction2 = True
-            elif event.key == pygame.K_RIGHT:
-                self.position_x += 1
+            elif event.key == pygame.K_RIGHT and userAction == False:
+                self.speed_x = 1
                 userAction2 = True
-            elif event.key == pygame.K_DOWN:
-                self.position_y += 1
+            elif event.key == pygame.K_DOWN and userAction2 == False:
+                self.speed_y = 1
                 userAction = True
             elif event.key == pygame.K_UP:
                 self.rotate_Tetrimino(0,0)
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                self.speed_x = 0
+                userAction2 = False
+            if event.key == pygame.K_DOWN:
+                self.speed_y = 0
+                userAction = False
         return  userAction, userAction2
 
 class IA_Tetriminos(Tetriminos):
@@ -191,4 +194,4 @@ class IA_Tetriminos(Tetriminos):
         super(IA_Tetriminos, self).__init__(type_t, xPosition, yPosition, indexColor, indexColorG)
         self.grid_game = grid
     def eventTick(self, event):
-        return 0
+        pass
